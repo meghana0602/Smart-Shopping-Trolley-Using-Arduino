@@ -1,0 +1,75 @@
+#include <LiquidCrystal.h>
+#include <Arduino.h>
+const int rs = 12, en = 11, d4 = 6, d5 = 5, d6 = 4, d7 = 3;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+char input[12];
+int count = 0;
+int a;
+int p1=0,p2=0,p3=0,p4=0; 
+int c1=0,c2=0,c3=0,c4=0;
+int total = 0;
+int count_prod = 0;
+char card_no[12];
+
+
+void setup() {
+  
+  lcd.begin(16, 2);  // set up the LCD's number of columns and rows:
+  Serial.begin(9600);
+   lcd.setCursor(0, 0);
+  lcd.print(" AUTOMATIC BILL");
+  delay (2000);
+  lcd.setCursor(0, 1);
+  lcd.print("  SHOPPING CART  ");
+  delay (2000);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("   WELCOME TO ");
+  lcd.setCursor(0, 1); 
+  lcd.print("SMART SHOPPING");
+
+}
+ void loop()
+{
+  if(Serial.available())
+  {
+    int count=0;
+    while(Serial.available()&&count<12)
+    {
+      card_no[count]=Serial.read();
+      count++;
+      delay(5);
+    }
+    Serial.print(card_no);
+  }
+       if ((strncmp(card_no, "27001C3D494F", 12) == 0))
+      {
+       
+        lcd.setCursor(0, 0);
+        lcd.print("Butter Added");
+        lcd.setCursor(0, 1);
+        lcd.print("Price(Rm):4.00");
+        total=total+4.00;
+      }
+       if ((strncmp(card_no, "27001C9D0BAD", 12) == 0))
+      {
+        lcd.setCursor(0, 0);
+        lcd.print("Milk Added");
+        lcd.setCursor(0, 1);
+        lcd.print("Price(Rm):6.00");
+       
+        total = total + 6.00;
+        
+      }
+      if ((strncmp(card_no, "27001C445E21", 12) == 0))
+      {
+        lcd.setCursor(0, 0);
+        lcd.print("Total: 10");
+        lcd.setCursor(0, 1);
+        lcd.print("10");
+       
+        
+      }
+
+        
+    }
